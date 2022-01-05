@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tool>
+  <field id="prodName">
+    <value>1111</value>
+  </field>
+  <field id="prodNo">
+    <value>2222</value>
+  </field>
+  <field id="price">
+    <value>3333</value>
+  </field>
+</tool>

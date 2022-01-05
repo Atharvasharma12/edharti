@@ -1,0 +1,136 @@
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+      <%!
+  String qry=null;
+ %>
+<%
+String [] h=request.getParameterValues("t");
+Class.forName("com.mysql.jdbc.Driver");
+Connection c=DriverManager.getConnection("jdbc:mysql://localhost:3306/pharma","root","root");
+Statement s=c.createStatement();
+
+for(int i = 0 ; i< h.length; i++)
+{ 
+ 
+	PreparedStatement ps=c.prepareStatement("delete from tablet  where productname='"+h[i]+"'");
+  ps.execute();
+}
+out.println("<h2><br>Sucessfully");
+%>
+<a href="suss.jsp"><input type="button" value="Back"></a>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@include file="header1.jsp" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<script type="text/javascript" lang="javascript">
+   checked=false;
+    function checkAll(frm1){
+        var aa=document.getElementById('frm1');
+        
+        
+            if(checked==false){
+                
+            checked=true
+            }
+        else
+        
+        {
+            
+            checked=false
+        }
+            
+         for(var i=0;i<aa.elements.length;i++) {
+             
+             
+             aa.elements[i].checked=checked;
+             
+         }  
+        } 
+             
+    
+</script>
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<form  action="deletedcon.jsp" id="frm1">
+<h1 align="center"><u>Tablet</u></h1>
+<div class="form_inner">
+<center>
+    <input type="checkbox" name="all" onclick="checkAll(frm1);">  <b style="color:white;">ALL</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b style="color: white;">Product Name</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b style="color: white;">Composition</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b  style="color: white;">Pack</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b  style="color: white; margin-left: 4%;">MRP</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b  style="color: white;">Scheme</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b  style="color: white;">Medicine Code</b><br/><br/><br/>
+<% 
+Class.forName("com.mysql.jdbc.Driver");
+Connection c=DriverManager.getConnection("jdbc:mysql://localhost:3306/pharma","root","root");
+Statement s=c.createStatement();
+ResultSet rs=s.executeQuery("select distinct productname,composition,pack,mrp,scheme,medicinecode from tablet");
+while(rs.next())
+	  
+{
+	  String p=rs.getString(1);
+	  String  co=rs.getString(2);
+	  String  pa=rs.getString(3);
+	  String mr=rs.getString(4);
+	  String  ch=rs.getString(5);
+	 String meco =rs.getString(6);
+
+	  
+	  %>
+	<input type="checkbox" name="t" value=<%=p%>>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <input type="text" name="h" readonly="readonly" value=<%=p%>><input type="text"  name="f" readonly="readonly" value=<%=co%>><input type="text" name="agg" readonly="readonly" value=<%=pa%>><input type="text" name="int" readonly="readonly" value=<%=mr%>><input type="text" name="int" readonly="readonly" value=<%=ch%>><input type="text" name="int" readonly="readonly" value=<%=meco%>><br><br>
+
+<%
+
+}
+%>
+<br/>
+<input type="submit" value="Delete" style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="success.jsp" style="color: white;">BACK</a>
+</center>
+
+</div>
+</form>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <%@include file="footer1.jsp" %>
